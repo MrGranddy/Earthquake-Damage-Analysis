@@ -1,5 +1,5 @@
 import unittest
-from data import EarthquakeDataset
+from data import EarthquakeDataset, Earthquake
 
 
 class TestData(unittest.TestCase):
@@ -168,3 +168,25 @@ class TestData(unittest.TestCase):
         self.assertEqual(eartquake["eqMagnitude"], 7.6)
         self.assertEqual(eartquake["year"], 1999)
         self.assertEqual(eartquake["deaths"], 17118)
+
+    def test_get_data(self):
+        """Test if the data is returned correctly"""
+
+        # Create dataset
+        dataset = EarthquakeDataset()
+
+        # Set parameters
+        dataset.set_parameters(
+            country="Turkey",
+            minYear=1920,
+            maxYear=2023,
+        )
+
+        # Request data from API
+        data = dataset.get_data()
+        self.assertIsInstance(data, list)
+
+        # Check if data type is correct
+        self.assertIsInstance(data[0], Earthquake)
+
+        print(data)

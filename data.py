@@ -26,6 +26,23 @@ class EarthquakeDataset:
         )
 
     def set_parameters(self, **kwargs):
+        """Set the parameters for the dataset
+
+        Args:
+            country (str, optional): Country name.
+            minDeaths (int, optional): Minimum number of deaths.
+            minEqDepth (int, optional): Minimum earthquake depth.
+            minEqMagnitude (int, optional): Minimum earthquake magnitude.
+            minYear (int, optional): Minimum year. Cannot be used with year.
+            maxDeaths (int, optional): Maximum number of deaths.
+            maxYear (int, optional): Maximum year. Cannot be used with year.
+            maxEqDepth (int, optional): Maximum earthquake depth.
+            maxEqMagnitude (int, optional): Maximum earthquake magnitude.
+            year (int, optional): Year. Cannot be used with minYear and maxYear.
+
+        Returns:
+            None
+        """
 
         _parameters = set(kwargs.keys())
 
@@ -43,6 +60,11 @@ class EarthquakeDataset:
         self.parameters = kwargs
 
     def request_data(self):
+        """Request data from the API
+
+        Returns:
+            dict: Data from the API in JSON format
+        """
 
         response = requests.get(self.api_url, params=self.parameters, timeout=15)
         if response.status_code == 200:

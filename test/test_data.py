@@ -93,7 +93,6 @@ class TestData(unittest.TestCase):
 
         # Create dataset
         dataset = EarthquakeDataset()
-        self.assertIsInstance(dataset, EarthquakeDataset)
 
         # Set parameters
         dataset.set_parameters(
@@ -115,6 +114,22 @@ class TestData(unittest.TestCase):
 
         # Check if earthquake list is empty
         self.assertEqual(len(eartquakes), 0)
+
+    def test_request_data_with_no_parameters(self):
+        """Test if the data is requested correctly with no parameters"""
+
+        # Create dataset
+        dataset = EarthquakeDataset()
+
+        # Request data from API
+        data = dataset.request_data()
+        eartquakes = data["items"]
+        self.assertIsInstance(eartquakes, list)
+
+        # Check if the data is valid
+        self.assertGreaterEqual(
+            len(eartquakes), 6300
+        )  # There were 6348 earthquakes when I wrote this test
 
     def test_request_data(self):
         """Test if the data is requested correctly"""

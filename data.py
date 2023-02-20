@@ -112,7 +112,7 @@ class EarthquakeDataset:
 
         self.parameters = kwargs
 
-    def request_data(self):
+    def request_data(self) -> dict:
         """Request data from the API
 
         Returns:
@@ -125,7 +125,7 @@ class EarthquakeDataset:
 
         raise ConnectionError(f"Error code: {response.status_code}")
 
-    def _parse_api_data(self, data: List[dict]):
+    def _parse_api_data(self, data: List[dict]) -> List[Earthquake]:
         """Parse data from the API
 
         Args:
@@ -174,13 +174,23 @@ class EarthquakeDataset:
 
         return earthquakes
 
-    def get_data(self):
+    def get_data(self) -> List[Earthquake]:
         """Get data from the API
 
         Returns:
-            list: List of earthquakes
+            List[Earthquake] : List of earthquakes
         """
 
         data = self._parse_api_data(self.request_data()["items"])
 
         return data
+
+    def __call__(self, **kwargs) -> List[Earthquake]:
+        """Get data as an Earthquake list with the given parameters
+
+        Returns:
+            List[Earthquake] : List of earthquakes
+        """
+
+        self.set_parameters(**kwargs)
+        return self.get_data()
